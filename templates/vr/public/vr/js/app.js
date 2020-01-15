@@ -1,16 +1,16 @@
 "use strict";
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var redux = require('redux');
-var AppReducer = require('./reducers/AppReducer');
-var AppSession = require('./session/AppSession');
-var cE = React.createElement;
-var MyApp = require('./components/MyApp');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const redux = require('redux');
+const AppReducer = require('./reducers/AppReducer');
+const AppSession = require('./session/AppSession');
+const cE = React.createElement;
+const MyApp = require('./components/MyApp');
 
-var main = exports.main = async function(data) {
+const main = exports.main = async function(data) {
     if (typeof window !== 'undefined') {
-        var ctx =  {
+        const ctx =  {
             store: redux.createStore(AppReducer)
         };
         try {

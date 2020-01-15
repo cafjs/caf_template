@@ -1,5 +1,5 @@
 if (typeof window !== 'undefined') {
-    var app = require('./app');
+    const app = require('./app');
     // use app.js directly for server side rendering
     app.main();
 };

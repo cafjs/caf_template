@@ -20,9 +20,9 @@ class Example extends React.Component {
     }
 
     doIncrement() {
-        let inc = parseInt(this.props.increment);
+        const inc = parseInt(this.props.increment);
         if (isNaN(inc)) {
-            let err = new Error('Increment is not a number');
+            const err = new Error('Increment is not a number');
             AppActions.setError(this.props.ctx, err);
         } else {
             AppActions.increment(this.props.ctx, inc);

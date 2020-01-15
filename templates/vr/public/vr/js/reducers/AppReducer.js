@@ -1,6 +1,6 @@
-var AppConstants = require('../constants/AppConstants');
+const AppConstants = require('../constants/AppConstants');
 
-var AppReducer = function(state, action) {
+const AppReducer = function(state, action) {
     if (typeof state === 'undefined') {
         return  {counter: -1, increment: '1', deviceInfo: -1, isClosed: false};
     } else {

@@ -2,8 +2,8 @@
 const React = require('react');
 const cE = React.createElement;
 const AppActions = require('../actions/AppActions');
-var aframeR = require('aframe-react');
-var Entity = aframeR.Entity;
+const aframeR = require('aframe-react');
+const Entity = aframeR.Entity;
 
 class Example extends React.Component {
     constructor(props) {

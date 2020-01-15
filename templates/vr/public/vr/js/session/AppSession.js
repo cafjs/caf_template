@@ -1,11 +1,11 @@
-var cli = require('caf_cli');
-var AppActions = require('../actions/AppActions');
+const cli = require('caf_cli');
+const AppActions = require('../actions/AppActions');
 
 exports.connect = function(ctx) {
     return new Promise((resolve, reject) => {
 
-        var session = new cli.Session(window.location.href, null,
-                                      {timeoutMsec: 60000});
+        const session = new cli.Session(window.location.href, null,
+                                        {timeoutMsec: 60000});
 
         session.onopen = async function() {
             console.log('open session');

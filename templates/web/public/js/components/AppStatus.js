@@ -8,7 +8,7 @@ class AppStatus extends React.Component {
     }
 
     render() {
-        let color = (this.props.isClosed ? 'text-danger' : 'text-success');
+        const color = (this.props.isClosed ? 'text-danger' : 'text-success');
         return cE(rB.Glyphicon, {glyph: 'heart', className: color});
     }
 };

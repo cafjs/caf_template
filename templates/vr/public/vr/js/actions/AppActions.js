@@ -1,47 +1,47 @@
 "use strict";
 
-var AppConstants = require('../constants/AppConstants');
-var json_rpc = require('caf_transport').json_rpc;
-var caf_cli =  require('caf_cli');
+const AppConstants = require('../constants/AppConstants');
+const json_rpc = require('caf_transport').json_rpc;
+const caf_cli =  require('caf_cli');
 
 
-var updateF = function(store, state) {
-    var d = {
+const updateF = function(store, state) {
+    const d = {
         type: AppConstants.APP_UPDATE,
         state: state
     };
     store.dispatch(d);
 };
 
-var errorF =  function(store, err) {
-    var d = {
+const errorF =  function(store, err) {
+    const d = {
         type: AppConstants.APP_ERROR,
         error: err
     };
     store.dispatch(d);
 };
 
-var getNotifData = function(msg) {
+const getNotifData = function(msg) {
     return json_rpc.getMethodArgs(msg)[0];
 };
 
-var notifyF = function(store, message) {
-    var d = {
+const notifyF = function(store, message) {
+    const d = {
         type: AppConstants.APP_NOTIFICATION,
         state: getNotifData(message)
     };
     store.dispatch(d);
 };
 
-var wsStatusF =  function(store, isClosed) {
-    var d = {
+const wsStatusF =  function(store, isClosed) {
+    const d = {
         type: AppConstants.WS_STATUS,
         isClosed: isClosed
     };
     store.dispatch(d);
 };
 
-var AppActions = {
+const AppActions = {
     async init(ctx) {
         try {
             const tok =  caf_cli.extractTokenFromURL(window.location.href);
@@ -76,11 +76,11 @@ const EXTERNAL_METHODS = [
 
 EXTERNAL_METHODS.forEach(function(x) {
     AppActions[x] = async function() {
+        const args = Array.prototype.slice.call(arguments);
+        const ctx = args.shift();
         try {
-            var args = Array.prototype.slice.call(arguments);
-            var ctx = args.shift();
-            var data = await ctx.session[x].apply(ctx.session, args)
-                    .getPromise();
+            const data = await ctx.session[x].apply(ctx.session, args)
+                      .getPromise();
             updateF(ctx.store, data);
         } catch (err) {
             errorF(ctx.store, err);

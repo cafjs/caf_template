@@ -62,7 +62,7 @@ exports.methods = {
     async configPin(pinNumber) {
         const $$ = this.$.sharing.$;
        // Initial device config example
-        var meta = {};
+        const meta = {};
         meta[pinNumber] = {
             input: false,
             initialState: { high: false}

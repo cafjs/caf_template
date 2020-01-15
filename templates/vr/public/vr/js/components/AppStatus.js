@@ -1,7 +1,7 @@
-var React = require('react');
-var cE = React.createElement;
-var aframeR = require('aframe-react');
-var Entity = aframeR.Entity;
+const React = require('react');
+const cE = React.createElement;
+const aframeR = require('aframe-react');
+const Entity = aframeR.Entity;
 
 
 class AppStatus extends React.Component {

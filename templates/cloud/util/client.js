@@ -41,7 +41,7 @@ const s = new caf_cli.Session(argv.url, null, spec);
 
 s.onopen = async function() {
     try {
-        let state = await s.increment(5).getPromise();
+        const state = await s.increment(5).getPromise();
         console.log('Final count:' + state.counter);
         await setTimeoutPromise(10000);
         s.close();
@@ -51,7 +51,7 @@ s.onopen = async function() {
 };
 
 s.onmessage = function(msg) {
-    let counter = caf_cli.getMethodArgs(msg)[0];
+    const counter = caf_cli.getMethodArgs(msg)[0];
     console.log('Got notification in client:' + counter);
 };
 

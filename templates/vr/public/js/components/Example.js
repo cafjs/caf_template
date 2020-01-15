@@ -4,7 +4,7 @@ const React = require('react');
 const rB = require('react-bootstrap');
 const cE = React.createElement;
 const AppActions = require('../actions/AppActions');
-var urlParser = require('url');
+const urlParser = require('url');
 
 class Example extends React.Component {
 
@@ -24,7 +24,7 @@ class Example extends React.Component {
 
     doVR() {
         if (window && window.location && window.location.href) {
-            let myURL = urlParser.parse(window.location.href);
+            const myURL = urlParser.parse(window.location.href);
             myURL.pathname = '/vr/index.html';
             myURL.hash = myURL.hash.replace('session=default', 'session=vr');
             delete myURL.search; // delete cacheKey
@@ -33,9 +33,9 @@ class Example extends React.Component {
     }
 
     doIncrement() {
-        let inc = parseInt(this.props.increment);
+        const inc = parseInt(this.props.increment);
         if (isNaN(inc)) {
-            let err = new Error('Increment is not a number');
+            const err = new Error('Increment is not a number');
             AppActions.setError(this.props.ctx, err);
         } else {
             AppActions.increment(this.props.ctx, inc);

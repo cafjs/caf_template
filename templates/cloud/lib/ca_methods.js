@@ -1,5 +1,5 @@
 'use strict';
-var caf = require('caf_core');
+const caf = require('caf_core');
 
 exports.methods = {
     // Methods called by framework

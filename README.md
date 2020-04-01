@@ -1,10 +1,10 @@
-# CAF (Cloud Assistant Framework)
+# Caf.js
 
 Co-design permanent, active, stateful, reliable cloud proxies with your web app and IoT devices.
 
-See http://www.cafjs.com
+See https://www.cafjs.com
 
-## Application templates for `cafjs generate`
+## Application Templates for `cafjs generate`
 
 Contains the default templates for creating skeleton apps using `cafjs generate`
 

@@ -19,6 +19,9 @@
                     }
                 },
                 {
+                    "name": "queue"
+                },
+                {
                     "module": "caf_iot_gatt#plug_iot",
                     "name": "gatt",
                     "description": "Access to GATT services.",

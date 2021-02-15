@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-/* example: client.js --password=<..> --url=<..> --from=<...>
- * client.js --password=pleasechange --url=http://root-example.vcap.me --from foo-ca1
+/* example:  client.js [--url=<string>] password caName [appName]
+ * 'client.js  --url=http://root-example.vcap.me bar foo-ca1'
+ *  or 'client.js  bar foo-ca1 example'
  */
 
 'use strict';
@@ -14,9 +15,41 @@ const setTimeoutPromise = util.promisify(setTimeout);
 const srpClient = require('caf_srp').client;
 const parseArgs = require('minimist');
 
+const usage = function() {
+    console.log(
+        'Usage: client.js [--url=<string>] password caName [appName] \n' +
+            "For example:\n 'client.js bar foo-ca1 hellocloud' or\n" +
+            " 'client.js --url=http://root-hellocloud.vcap.me bar foo-ca1'"
+    );
+    process.exit(1);
+};
+
+const usageArgs = function(x) {
+    if (x.indexOf('--') !== 0) {
+        return true;
+    } else {
+        console.log(`Invalid ${x}`);
+        usage();
+        return false;
+    }
+};
+
 const argv = parseArgs(process.argv.slice(2), {
-    string: ['password', 'url', 'from']
+    string: ['url'],
+    unknown: usageArgs
 });
+
+const options = argv._ || [];
+
+if (options.length === 2) {
+    [argv.password, argv.from] = options;
+    !argv.url && usage();
+} else if (options.length === 3) {
+    [argv.password, argv.from, argv.url] = options;
+    argv.url = `http://root-${argv.url}.vcap.me`;
+} else {
+    usage();
+}
 
 
 /* `from` CA needs to be the same as target `ca` to enable creation, i.e.,
@@ -30,20 +63,17 @@ const spec = {
     securityClient: srpClient,
     password: argv.password,
     unrestrictedToken: false,
-    initUser: true, // initialize CA for root-people app
     from: argv.from,
     ca: argv.from
 };
-
-
 
 const s = new caf_cli.Session(argv.url, null, spec);
 
 s.onopen = async function() {
     try {
         const state = await s.increment(5).getPromise();
-        console.log('Final count:' + state.counter);
-        await setTimeoutPromise(10000);
+        console.log('Current count:' + state.counter);
+        await setTimeoutPromise(15000);
         s.close();
     } catch (ex) {
         s.close(ex);

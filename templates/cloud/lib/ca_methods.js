@@ -1,16 +1,16 @@
 'use strict';
+
 const caf = require('caf_core');
 
 exports.methods = {
-    // Methods called by framework
+    // Internal methods called by the framework start with prefix `__ca_`
     async __ca_init__() {
         this.state.counter = -1;
         this.$.session.limitQueue(1, 'default'); // only the last notification
         return [];
     },
     async __ca_pulse__() {
-        this.$.log && this.$.log.debug('calling PULSE!!! ' +
-                                       this.state.counter);
+        this.$.log && this.$.log.debug(`Calling PULSE: ${this.state.counter}`);
         this.state.counter = this.state.counter + 1;
         if (this.state.counter % this.$.props.divisor === 0) {
             this.$.session.notify([this.state.counter], 'default');

@@ -1,4 +1,5 @@
 'use strict';
+
 const caf = require('caf_core');
 const caf_comp = caf.caf_components;
 const myUtils = caf_comp.myUtils;
@@ -26,8 +27,7 @@ exports.methods = {
 
     async __ca_pulse__() {
         // Example autonomous logic
-        this.$.log && this.$.log.debug('calling PULSE!!! ' +
-                                       this.state.counter);
+        this.$.log && this.$.log.debug(`Calling PULSE: ${this.state.counter}`);
         this.state.counter = this.state.counter + 1;
         if (this.state.counter % this.$.props.divisor === 0) {
             this.$.session.notify([{counter: this.state.counter}], APP_SESSION);
@@ -52,12 +52,6 @@ exports.methods = {
         }
     },
 
-    // Example external method
-    async increment(inc) {
-        this.state.counter = this.state.counter + inc;
-        return this.getState();
-    },
-
     // Example config LED number
     async configPin(pinNumber) {
         const $$ = this.$.sharing.$;
@@ -65,7 +59,7 @@ exports.methods = {
         const meta = {};
         meta[pinNumber] = {
             input: false,
-            initialState: { high: false}
+            initialState: {high: false}
         };
         $$.fromCloud.set('meta', meta);
         this.state.meta = meta;
@@ -94,8 +88,7 @@ exports.methods = {
     async __ca_traceSync__() {
         const $$ = this.$.sharing.$;
         const now = (new Date()).getTime();
-        this.$.log && this.$.log.trace(this.state.fullName +
-                                       ':Syncing!!:' + now);
+        this.$.log && this.$.log.trace(`${this.state.fullName}:Syncing:${now}`);
 
         // Example of device state handling
         const deviceInfo = $$.toCloud.get('deviceInfo');
@@ -111,11 +104,10 @@ exports.methods = {
 
     // called every time the device resumes a session
     async __ca_traceResume__() {
-        this.$.log && this.$.log.trace(this.state.fullName + ':Resuming!!:' +
-                                       (new Date()).getTime());
+        const t = (new Date()).getTime();
+        this.$.log && this.$.log.trace(`${this.state.fullName}:Resuming:${t}`);
         return [];
     }
-
 };
 
 caf.init(module);

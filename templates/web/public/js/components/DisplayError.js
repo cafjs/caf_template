@@ -21,9 +21,9 @@ class DisplayError extends React.Component {
                              onHide: this.doDismissError,
                              animation: false},
                   cE(rB.Modal.Header, {
-                      className : "bg-warning text-warning",
+                      className : 'bg-warning text-warning',
                       closeButton: true},
-                     cE(rB.Modal.Title, null, "Error")
+                     cE(rB.Modal.Title, null, 'Error')
                     ),
                   cE(rB.ModalBody, null,
                      cE('p', null, 'Message:'),
@@ -31,7 +31,7 @@ class DisplayError extends React.Component {
                         this.props.error && this.props.error.message)
                     ),
                   cE(rB.Modal.Footer, null,
-                     cE(rB.Button, {onClick: this.doDismissError}, "Continue")
+                     cE(rB.Button, {onClick: this.doDismissError}, 'Continue')
                     )
                  );
     }

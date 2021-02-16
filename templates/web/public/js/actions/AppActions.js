@@ -1,3 +1,5 @@
+'use strict';
+
 const AppConstants = require('../constants/AppConstants');
 const json_rpc = require('caf_transport').json_rpc;
 
@@ -43,18 +45,16 @@ const AppActions = {
     async init(ctx) {
         try {
             const data = await ctx.session.hello(ctx.session.getCacheKey())
-                    .getPromise();
+                .getPromise();
             updateF(ctx.store, data);
         } catch (err) {
             errorF(ctx.store, err);
         }
     },
     message(ctx, msg) {
-        // console.log('message:' + JSON.stringify(msg));
         notifyF(ctx.store, msg);
     },
     closing(ctx, err) {
-        console.log('Closing:' + JSON.stringify(err));
         wsStatusF(ctx.store, true);
     },
     setLocalState(ctx, data) {

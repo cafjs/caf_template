@@ -1,3 +1,5 @@
+'use strict';
+
 const AppConstants = require('../constants/AppConstants');
 const json_rpc = require('caf_transport').json_rpc;
 const caf_cli =  require('caf_cli');
@@ -71,7 +73,7 @@ const AppActions = {
 };
 
 const EXTERNAL_METHODS = [
-    'increment', 'blink', 'getState' // Add your methods here
+    'blink', 'getState' // Add your methods here
 ];
 
 EXTERNAL_METHODS.forEach(function(x) {

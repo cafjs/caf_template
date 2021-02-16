@@ -1,3 +1,5 @@
+'use strict';
+
 const AppConstants = require('../constants/AppConstants');
 
 const AppReducer = function(state, action) {

@@ -1,8 +1,10 @@
+'use strict';
+
 const AppConstants = require('../constants/AppConstants');
 
 const AppReducer = function(state, action) {
     if (typeof state === 'undefined') {
-        return  {counter: -1, increment: '1', deviceInfo: -1, isClosed: false};
+        return  {deviceInfo: -1, isClosed: false};
     } else {
         switch(action.type) {
         case AppConstants.APP_UPDATE:

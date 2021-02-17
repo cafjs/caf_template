@@ -4,7 +4,8 @@ const AppConstants = require('../constants/AppConstants');
 
 const AppReducer = function(state, action) {
     if (typeof state === 'undefined') {
-        return  {deviceInfo: -1, isClosed: false};
+        return  {deviceInfo: -1, pinNumber: -1, isChangePin: false,
+                 newPinNumber: '', isClosed: false};
     } else {
         switch(action.type) {
         case AppConstants.APP_UPDATE:

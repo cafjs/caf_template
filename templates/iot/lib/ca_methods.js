@@ -63,6 +63,7 @@ exports.methods = {
         };
         $$.fromCloud.set('meta', meta);
         this.state.meta = meta;
+        this.state.pinNumber = pinNumber;
         return this.getState();
     },
 

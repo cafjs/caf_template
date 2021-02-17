@@ -6,6 +6,7 @@ const AppActions = require('../actions/AppActions');
 const AppStatus = require('./AppStatus');
 const DisplayError = require('./DisplayError');
 const Example = require('./Example');
+const ChangePin = require('./ChangePin');
 
 const cE = React.createElement;
 
@@ -42,6 +43,12 @@ class MyApp extends React.Component {
                       ctx: this.props.ctx,
                       error: this.state.error
                   }),
+                  cE(ChangePin, {
+                      ctx: this.props.ctx,
+                      isChangePin: this.state.isChangePin,
+                      pinNumber: this.state.pinNumber,
+                      newPinNumber: this.state.newPinNumber
+                  }),
                   cE(rB.Panel, null,
                      cE(rB.Panel.Heading, null,
                         cE(rB.Panel.Title, null,
@@ -74,7 +81,8 @@ class MyApp extends React.Component {
                            cE(rB.Panel.Body, null,
                               cE(Example, {
                                   ctx: this.props.ctx,
-                                  deviceInfo: this.state.deviceInfo
+                                  deviceInfo: this.state.deviceInfo,
+                                  pinNumber: this.state.pinNumber
                               })
                              )
                           )

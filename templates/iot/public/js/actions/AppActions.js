@@ -73,7 +73,7 @@ const AppActions = {
 };
 
 const EXTERNAL_METHODS = [
-    'blink', 'getState' // Add your methods here
+    'blink', 'configPin', 'getState' // Add your methods here
 ];
 
 EXTERNAL_METHODS.forEach(function(x) {

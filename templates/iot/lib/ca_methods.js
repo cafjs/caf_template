@@ -46,7 +46,10 @@ exports.methods = {
 
         // example of delayed configuration
         if (!this.state.meta) {
-            return this.configPin(this.$.props.pinNumber);
+            const pinNumber = typeof this.state.pinNumber === 'number' ?
+                this.state.pinNumber :
+                this.$.props.pinNumber;
+            return this.configPin(pinNumber);
         } else {
             return this.getState();
         }
@@ -70,9 +73,9 @@ exports.methods = {
     // Example blink method
     async blink() {
         const bundle = this.$.iot.newBundle();
-        bundle.setPin(0, [this.$.props.pinNumber, true])
-            .setPin(1000, [this.$.props.pinNumber, false]);
-        this.$.iot.sendBundle(bundle);
+        bundle.setPin(0, [this.state.pinNumber, true])
+            .setPin(1000, [this.state.pinNumber, false]);
+        this.$.iot.sendBundle(bundle, this.$.iot.NOW_SAFE);
         // force device to reload, reducing latency.
         this.$.session.notify(['Bundle ready'], IOT_SESSION);
         return this.getState();

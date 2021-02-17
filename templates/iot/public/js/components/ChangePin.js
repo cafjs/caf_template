@@ -12,13 +12,14 @@ class ChangePin extends React.Component {
         this.doChangePin = this.doChangePin.bind(this);
         this.doDismissChangePin = this.doDismissChangePin.bind(this);
         this.handleChangePin = this.handleChangePin.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     doChangePin(ev) {
         const newPin = parseInt(this.props.newPinNumber);
         if (!isNaN(newPin)) {
             AppActions.configPin(this.props.ctx, newPin);
-            AppActions.setLocalState(this.props.ctx, {newPinNumber: ''});
+            this.doDismissChangePin();
         } else {
             AppActions.setError(this.props.ctx, new Error('Invalid pin'));
         }
@@ -35,6 +36,13 @@ class ChangePin extends React.Component {
         AppActions.setLocalState(this.props.ctx, {
             newPinNumber: ev.target.value
         });
+    }
+
+    submit(ev) {
+        if (ev.key === 'Enter') {
+            ev.preventDefault();
+            this.doChangePin(ev);
+        }
     }
 
     render() {
@@ -56,31 +64,21 @@ class ChangePin extends React.Component {
                               cE(rB.FormControl, {
                                   type: 'text',
                                   value: this.props.newPinNumber,
-                                  placeholder: '37',
-                                  onChange: this.handleChangePin
+                                  placeholder: '',
+                                  onChange: this.handleChangePin,
+                                  onKeyPress: this.submit
                               })
                              )
                           ),
-                        cE(rB.FormGroup, {controlId: 'newChangePin2Id'},
-                           cE(rB.Col, {smOffset:3, sm:6, xs: 12},
-                              cE(rB.Button, {onClick: this.doChangePin},
-                                 'Update')
-                             )
-                          ),
-                        cE(rB.FormGroup, {controlId: 'currentChangePinId'},
-                           cE(rB.Col, {smOffset: 3, sm:9, xs: 12},
-                              cE(rB.FormControl, {
-                                  type: 'text',
-                                  readOnly: true,
-                                  value: '' + this.props.pinNumber
-                              })
-                             )
-                          )
                        )
                     ),
                   cE(rB.Modal.Footer, null,
-                     cE(rB.Button, {onClick: this.doDismissChangePin},
-                        'Continue')
+                     cE(rB.ButtonGroup, null,
+                        cE(rB.Button, {onClick: this.doDismissChangePin},
+                           'Continue'),
+                        cE(rB.Button, {onClick: this.doChangePin,
+                                       bsStyle: 'danger'}, 'Update')
+                       )
                     )
                  );
     }

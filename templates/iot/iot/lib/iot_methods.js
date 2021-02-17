@@ -1,6 +1,7 @@
 'use strict';
 
 const caf_iot = require('caf_iot');
+const myUtils = caf_iot.caf_components.myUtils;
 
 exports.methods = {
     async __iot_setup__() {
@@ -9,9 +10,10 @@ exports.methods = {
         const lastIndex = this.toCloud.get('index');
         this.state.index = (lastIndex ? lastIndex : 0);
 
-        const meta = this.fromCloud.get('meta');
+        const meta = this.fromCloud.get('meta') || {};
         this.$.log && this.$.log.debug(JSON.stringify(meta));
-        this.$.gpio.setPinConfig(meta || {});
+        this.$.gpio.setPinConfig(meta);
+        this.state.meta = meta;
 
         return [];
     },
@@ -21,6 +23,15 @@ exports.methods = {
             `Time offset ${this.$.cloud.cli.getEstimatedTimeOffset()}`
         );
 
+        // Setup new pin
+        const meta = this.fromCloud.get('meta');
+        if (meta && !myUtils.deepEqual(meta, this.state.meta)) {
+            this.$.log && this.$.log.debug(JSON.stringify(meta));
+            this.$.gpio.setPinConfig(meta);
+            this.state.meta = meta;
+        }
+
+        // Store device state in the cloud
         this.toCloud.set('index', this.state.index);
         this.state.index = this.state.index + 1;
 

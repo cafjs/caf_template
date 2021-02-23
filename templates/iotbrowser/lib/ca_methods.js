@@ -13,7 +13,7 @@ const notifyIoT = function(self, msg) {
     self.$.session.notify([msg], IOT_SESSION);
 };
 
-const notifyWebApp = function(self, msg) {
+const notifyWebApps = function(self, msg) {
     self.$.session.notify([msg], APP_SESSION);
     self.$.session.notify([msg], STANDALONE_SESSION);
     self.$.session.notify([msg], USER_SESSION);
@@ -62,7 +62,7 @@ exports.methods = {
     },
 
     async __ca_pulse__() {
-        this.$.log && this.$.log.debug('calling PULSE!!! ');
+        this.$.log && this.$.log.debug('Calling PULSE!');
         this.$.react.render(app.main, [this.state]);
         return [];
     },
@@ -89,7 +89,7 @@ exports.methods = {
     async findDevices() {
         this.state.selectedDevice && this.disconnect(); // #devices <= 1
         doBundle(this, 'findDevices', this.state.config);
-        notifyWebApp(this, 'Finding device');
+        notifyWebApps(this, 'Finding device');
         return this.getState();
     },
 
@@ -97,7 +97,7 @@ exports.methods = {
         if (this.state.devices[deviceId]) {
             this.state.selectedDevice = {id: deviceId, ad: deviceAd};
             doBundle(this, 'connect', deviceId);
-            notifyWebApp(this, 'Connecting device');
+            notifyWebApps(this, 'Connecting device');
             return this.getState();
         } else {
             const err = new Error('Cannot connect, device missing');
@@ -109,14 +109,14 @@ exports.methods = {
     async disconnect() {
         doBundle(this, 'disconnect');
         this.state.selectedDevice = null;
-        notifyWebApp(this, 'Disconnecting device');
+        notifyWebApps(this, 'Disconnecting device');
         return this.getState();
     },
 
     async reset() {
         doBundle(this, 'reset');
         this.state.selectedDevice = null;
-        notifyWebApp(this, 'Resetting');
+        notifyWebApps(this, 'Resetting');
         return this.getState();
     },
 
@@ -147,7 +147,7 @@ exports.methods = {
 
     // called when the device starts and connects to the CA
     async __ca_traceResume__() {
-        notifyWebApp(this, 'New device');
+        notifyWebApps(this, 'New device');
         return [];
     },
 
@@ -163,7 +163,7 @@ exports.methods = {
             // Invariant: `selectedDevice` is always visible to the device
             this.state.selectedDevice = null;
         }
-        notifyWebApp(this, 'New inputs');
+        notifyWebApps(this, 'New inputs');
         return [];
     }
 

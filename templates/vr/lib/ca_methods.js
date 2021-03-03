@@ -28,8 +28,7 @@ exports.methods = {
 
     async __ca_pulse__() {
         // Example autonomous logic
-        this.$.log && this.$.log.debug('calling PULSE!!! ' +
-                                       this.state.counter);
+        this.$.log && this.$.log.debug(`Calling PULSE: ${this.state.counter}`);
         this.state.counter = this.state.counter + 1;
         if (this.state.counter % this.$.props.divisor === 0) {
             this.$.session.notify([{counter: this.state.counter}], APP_SESSION);
@@ -49,16 +48,13 @@ exports.methods = {
 
         // example of delayed configuration
         if (!this.state.meta) {
-            return this.configPin(this.$.props.pinNumber);
+            const pinNumber = typeof this.state.pinNumber === 'number' ?
+                this.state.pinNumber :
+                this.$.props.pinNumber;
+            return this.configPin(pinNumber);
         } else {
             return this.getState();
         }
-    },
-
-    // Example external method
-    async increment(inc) {
-        this.state.counter = this.state.counter + inc;
-        return this.getState();
     },
 
     // Example config LED number
@@ -68,19 +64,20 @@ exports.methods = {
         const meta = {};
         meta[pinNumber] = {
             input: false,
-            initialState: { high: false}
+            initialState: {high: false}
         };
         $$.fromCloud.set('meta', meta);
         this.state.meta = meta;
+        this.state.pinNumber = pinNumber;
         return this.getState();
     },
 
     // Example blink method
     async blink() {
         const bundle = this.$.iot.newBundle();
-        bundle.setPin(0, [this.$.props.pinNumber, true])
-            .setPin(1000, [this.$.props.pinNumber, false]);
-        this.$.iot.sendBundle(bundle);
+        bundle.setPin(0, [this.state.pinNumber, true])
+            .setPin(1000, [this.state.pinNumber, false]);
+        this.$.iot.sendBundle(bundle, this.$.iot.NOW_SAFE);
         // force device to reload, reducing latency.
         this.$.session.notify(['Bundle ready'], IOT_SESSION);
         return this.getState();
@@ -97,8 +94,7 @@ exports.methods = {
     async __ca_traceSync__() {
         const $$ = this.$.sharing.$;
         const now = (new Date()).getTime();
-        this.$.log && this.$.log.trace(this.state.fullName +
-                                       ':Syncing!!:' + now);
+        this.$.log && this.$.log.trace(`${this.state.fullName}:Syncing:${now}`);
 
         // Example of device state handling
         const deviceInfo = $$.toCloud.get('deviceInfo');
@@ -116,8 +112,8 @@ exports.methods = {
 
     // called every time the device resumes a session
     async __ca_traceResume__() {
-        this.$.log && this.$.log.trace(this.state.fullName + ':Resuming!!:' +
-                                       (new Date()).getTime());
+        const t = (new Date()).getTime();
+        this.$.log && this.$.log.trace(`${this.state.fullName}:Resuming:${t}`);
         return [];
     }
 

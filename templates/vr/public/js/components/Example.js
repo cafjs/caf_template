@@ -10,16 +10,9 @@ class Example extends React.Component {
 
     constructor(props) {
         super(props);
-        this.doIncrement = this.doIncrement.bind(this);
         this.doBlink = this.doBlink.bind(this);
-        this.handleIncrement = this.handleIncrement.bind(this);
         this.doVR = this.doVR.bind(this);
-
-    }
-
-    handleIncrement(e) {
-        AppActions.setLocalState(this.props.ctx,
-                                 {increment: e.target.value});
+        this.doUpdatePin = this.doUpdatePin.bind(this);
     }
 
     doVR() {
@@ -32,76 +25,55 @@ class Example extends React.Component {
         }
     }
 
-    doIncrement() {
-        const inc = parseInt(this.props.increment);
-        if (isNaN(inc)) {
-            const err = new Error('Increment is not a number');
-            AppActions.setError(this.props.ctx, err);
-        } else {
-            AppActions.increment(this.props.ctx, inc);
-        }
-    }
-
     doBlink() {
         AppActions.blink(this.props.ctx);
     }
 
+    doUpdatePin() {
+        AppActions.setLocalState(this.props.ctx, {isChangePin: true});
+    }
+
     render() {
         return cE(rB.Form, {horizontal: true},
-                  cE(rB.FormGroup, {controlId: 'counterId'},
-                     cE(rB.Col, {sm:2, xs: 4},
-                        cE(rB.ControlLabel, null, 'Counter')
+                  cE(rB.FormGroup, {controlId: 'blinkID', bsSize: 'large'},
+                     cE(rB.Col, {sm:2, xs: 12},
+                        cE(rB.ControlLabel, null, 'Info')
                        ),
-                      cE(rB.Col, {sm:6, xs: 8},
-                         cE(rB.FormControl, {
-                             type: 'text',
-                             readOnly: true,
-                             value: this.props.counter
-                         })
-                        )
-                    ),
-
-                  cE(rB.FormGroup, {controlId: 'incId'},
-                     cE(rB.Col, {sm:2, xs: 4},
-                        cE(rB.ControlLabel, null, 'Increment')
-                       ),
-                     cE(rB.Col, {sm:6, xs: 8},
-                        cE(rB.FormControl, {
-                            type: 'text',
-                            value: this.props.increment,
-                            placeholder: '1',
-                            onChange: this.handleIncrement
-                        })
-                       ),
-                     cE(rB.Col, {sm:4, xs: 8},
-                        cE(rB.Button, {
-                            bsStyle: 'primary',
-                            onClick: this.doIncrement
-                        }, "Change")
-                       )
-                    ),
-
-                  cE(rB.FormGroup, {controlId: 'blinkID'},
-                     cE(rB.Col, {sm:2, xs: 4},
-                        cE(rB.ControlLabel, null, 'Device Info')
-                       ),
-                     cE(rB.Col, {sm:6, xs: 8},
+                     cE(rB.Col, {sm:4, xs: 12},
                         cE(rB.FormControl, {
                             type: 'text',
                             value: this.props.deviceInfo,
                             readOnly: true
                         })
+                       )
+                    ),
+                  cE(rB.FormGroup, {controlId: 'pinID', bsSize: 'large'},
+                     cE(rB.Col, {sm:2, xs: 12},
+                        cE(rB.ControlLabel, null, 'Pin #')
                        ),
-                     cE(rB.Col, {sm:4, xs: 8},
+                     cE(rB.Col, {sm:4, xs: 12},
+                        cE(rB.FormControl, {
+                            type: 'text',
+                            value: this.props.pinNumber,
+                            readOnly: true
+                        })
+                       )
+                    ),
+                  cE(rB.FormGroup, {controlId: 'buttonId', bsSize: 'large'},
+                     cE(rB.Col, {smOffset:2 ,sm:4, xs: 12},
                         cE(rB.ButtonGroup, null,
+                           cE(rB.Button, {
+                               bsStyle: 'info',
+                               onClick: this.doUpdatePin
+                           }, 'Update Pin'),
                            cE(rB.Button, {
                                bsStyle: 'primary',
                                onClick: this.doBlink
-                           }, "Blink"),
+                           }, 'Do it!'),
                            cE(rB.Button, {
                                bsStyle: 'info',
                                onClick: this.doVR
-                           }, "VR")
+                           }, 'VR')
                           )
                        )
                     )

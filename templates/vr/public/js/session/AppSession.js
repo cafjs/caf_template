@@ -1,3 +1,5 @@
+'use strict';
+
 const cli = require('caf_cli');
 const AppActions = require('../actions/AppActions');
 
@@ -20,7 +22,7 @@ exports.connect = function(ctx) {
         };
 
         session.onclose = function(err) {
-            console.log('Closing:' + JSON.stringify(err));
+            console.log('closing:' + JSON.stringify(err));
             AppActions.closing(ctx, err);
             err && reject(err); // no-op if session already opened
         };

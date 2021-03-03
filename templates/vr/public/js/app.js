@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -24,8 +24,8 @@ const main = exports.main = function(data) {
                                  document.getElementById('content'));
             } catch (err) {
                 document.getElementById('content').innerHTML =
-                    '<H1>Cannot connect: ' + err + '<H1/>';
-                console.log('Cannot connect:' + err);
+                    `<H1>Cannot connect: ${err} <H1/>`;
+                console.log(`Cannot connect: ${err}`);
             }
         })();
     } else {

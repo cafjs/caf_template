@@ -2,6 +2,8 @@
 const React = require('react');
 const aframe = require('aframe');
 const aframeR = require('aframe-react');
+// relies on globals
+require('aframe-gui/dist/aframe-gui.js');
 
 const Entity = aframeR.Entity;
 const Scene = aframeR.Scene;
@@ -9,10 +11,6 @@ const Scene = aframeR.Scene;
 const cE = React.createElement;
 const AppStatus = require('./AppStatus');
 const Example = require('./Example');
-
-// relies on globals, i.e., `window.UI` and `window.Yoga`
-require('aframe-material-collection/dist/aframe-yoga-layout.js');
-require('aframe-material-collection/dist/aframe-material-collection.js');
 
 
 class MyApp extends React.Component {
@@ -79,8 +77,6 @@ class MyApp extends React.Component {
                   // Device UI example
                   cE(Example, {
                       ctx: this.props.ctx,
-                      counter: this.state.counter,
-                      increment: this.state.increment,
                       deviceInfo: this.state.deviceInfo
                   }),
                  );

@@ -71,7 +71,7 @@ const AppActions = {
 };
 
 const EXTERNAL_METHODS = [
-    'increment', 'blink', 'getState' // Add your methods here
+    'blink', 'getState' // Add your methods here
 ];
 
 EXTERNAL_METHODS.forEach(function(x) {

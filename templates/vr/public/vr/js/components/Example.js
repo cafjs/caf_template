@@ -5,10 +5,18 @@ const AppActions = require('../actions/AppActions');
 const aframeR = require('aframe-react');
 const Entity = aframeR.Entity;
 
+const BLINK =  'Manage_1_Blink';
+
 class Example extends React.Component {
     constructor(props) {
         super(props);
+
         this.doBlink = this.doBlink.bind(this);
+
+        if (typeof window !== 'undefined') {
+            // Cannot pass the handler directly...
+            window[BLINK] = this.doBlink;
+        }
     }
 
     doBlink() {
@@ -16,77 +24,29 @@ class Example extends React.Component {
     }
 
     render() {
-        return cE(Entity, {},
+        return cE(Entity, {
+            primitive: 'a-gui-flex-container',
+            'flex-direction': 'column',
+            'justify-content': 'center',
+            width : 2.2,
+            height: 1,
+            position: {x:0.1, y: 3.15, z: -4},
+            rotation: {x:0, y: 0, z: 0}
+        },
                   cE(Entity, {
-                      geometry : {
-                          primitive: 'plane',
-                          width: 3.5,
-                          height: 4.5,
-                      },
-                      material: {
-                          side: 'double',
-                          shader: 'flat',
-                          color: '#cfcfcf',
-                          transparent: true,
-                          opacity: 0.5
-                      },
-                      position: {x: 0.0, y: 2.5, z: -6.1},
-                      rotation: {x: 0, y: 0, z: 0}
+                      primitive: 'a-gui-button',
+                      width: 2.0,
+                      height: 0.50,
+                      value: 'Do it!',
+                      onclick: BLINK
                   }),
                   cE(Entity, {
-                      primitive: 'a-ui-scroll-pane',
-                      width: 3.5,
-                      height: 4.5,
-                      position: {x: 0.0, y: 2.5, z: -6},
-                      rotation: {x: 0, y: 0, z: 0}
-                  }, cE(Entity, {class: 'container'},
-                        [
-                            cE(Entity, {
-                                key: 9000732,
-                                primitive: 'a-text',
-                                width: 3.5,
-                                height: 1.5,
-                                text: {
-                                    baseline: 'center',
-                                    anchor: 'center',
-                                    align: 'center',
-                                    wrapCount: 8.0,
-                                    color: 'black',
-                                    value: 'Counter: ' + this.props.counter
-                                }
-                            }),
-                            cE(Entity, {
-                                key: 9000733,
-                                primitive: 'a-text',
-                                width: 3.5,
-                                height: 1.5,
-                                text: {
-                                    baseline: 'center',
-                                    anchor: 'center',
-                                    align: 'center',
-                                    wrapCount: 8.0,
-                                    color: 'black',
-                                    value:  'Info: ' +
-                                        this.props.deviceInfo
-                                }
-                            }),
-                            cE(Entity, {
-                                primitive: 'a-ui-button',
-                                class: 'clickable',
-                                key: 9000734,
-                                width: 3.5,
-                                height: 1.5,
-                                'text-value': 'Blink',
-                                'font-color': 'white',
-                                'ripple-color': 'white',
-                                color: 'black',
-                                events: {
-                                    click: this.doBlink
-                                }
-                            })
-                        ]
-                       )
-                    ));
+                      primitive: 'a-gui-label',
+                      width: 2.0,
+                      height: 0.50,
+                      value: this.props.deviceInfo
+                   })
+                 );
     }
 }
 

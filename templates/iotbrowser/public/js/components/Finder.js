@@ -21,7 +21,7 @@ class Finder extends React.Component {
                 delete parsedURL.search; // no cache
                 parsedURL.hash = parsedURL.hash.replace('session=default',
                                                         'session=standalone');
-                if (parsedURL.host.endsWith('vcap.me')) {
+                if (parsedURL.host.endsWith('localtest.me')) {
                     /* Web Bluetooth can only be used with https or localhost.
                      *  Chrome allows subdomains in localhost, i.e.,
                      *  root-helloiot.localhost, and wih local debugging the app
@@ -29,7 +29,7 @@ class Finder extends React.Component {
                      *
                      * Local debugging with Web Bluetooth requires Chrome!
                      */
-                    parsedURL.host = parsedURL.host.replace('vcap.me',
+                    parsedURL.host = parsedURL.host.replace('localtest.me',
                                                             'localhost:3003');
                 }
                 window.open(url.format(parsedURL));

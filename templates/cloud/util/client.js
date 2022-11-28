@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* example:  client.js [--url=<string>] password caName [appName]
- * 'client.js  --url=http://root-example.vcap.me bar foo-ca1'
+ * 'client.js  --url=http://root-example.localtest.me bar foo-ca1'
  *  or 'client.js  bar foo-ca1 example'
  */
 
@@ -19,7 +19,7 @@ const usage = function() {
     console.log(
         'Usage: client.js [--url=<string>] password caName [appName] \n' +
             "For example:\n 'client.js bar foo-ca1 hellocloud' or\n" +
-            " 'client.js --url=http://root-hellocloud.vcap.me bar foo-ca1'"
+            " 'client.js --url=http://root-hellocloud.localtest.me bar foo-ca1'"
     );
     process.exit(1);
 };
@@ -46,7 +46,7 @@ if (options.length === 2) {
     !argv.url && usage();
 } else if (options.length === 3) {
     [argv.password, argv.from, argv.url] = options;
-    argv.url = `http://root-${argv.url}.vcap.me`;
+    argv.url = `http://root-${argv.url}.localtest.me`;
 } else {
     usage();
 }
